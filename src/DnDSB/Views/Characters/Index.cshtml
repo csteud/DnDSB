@@ -1,0 +1,77 @@
+@model IEnumerable<DnDSB.Models.Character>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CharacterName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Hp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Str)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dex)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Con)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Int)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Wis)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cha)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CharacterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Str)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dex)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Con)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Int)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Wis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cha)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CharacterId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CharacterId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CharacterId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
