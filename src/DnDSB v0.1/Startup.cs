@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using DnDSB.Models;
+using DnDSB.Data;
 
 namespace DnDSB_v0._1
 {
@@ -23,8 +23,10 @@ namespace DnDSB_v0._1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddDbContext<DnDContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DnDConnection")));
             services.AddDbContext<DnDContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DnDConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
         }
