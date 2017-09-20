@@ -14,6 +14,7 @@ namespace DnDSB
         public DateTime EmbarkDate { get; set; }
 
         public virtual ICollection<Player> Gm { get; set; }
+        public virtual ICollection<Player> Players { get; set; }
         public virtual ICollection<CharacterBase> CharacterBase { get; set; }
     }
 }

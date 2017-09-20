@@ -72,8 +72,11 @@ namespace DnDSB.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CharacterName,Hp,Str,Dex,Con,Int,Wis,Cha,Initiative")] Character character)
+        public async Task<IActionResult> Create([Bind("CharacterName,Hp,Str,Dex,Con,Int,Wis,Cha,Initiative,Maxhp")] Character character)
         {
+            //Validation Logic
+            if (character.Hp > character.MaxHp)
+                ModelState.AddModelError("Hp", "Current HP cannot be greater than Max HP");
             try
             {
                 if (ModelState.IsValid)
@@ -124,12 +127,18 @@ namespace DnDSB.Controllers
             if (await TryUpdateModelAsync<Character>(
                 characterToUpdate,
                 "",
-                s => s.CharacterName, s => s.Hp, s => s.Str, s => s.Dex, s => s.Con, s => s.Int, s => s.Wis, s => s.Cha, s => s.Initiative))
+                s => s.CharacterName, s => s.Hp, s => s.Str, s => s.Dex, s => s.Con, s => s.Int, s => s.Wis, s => s.Cha, s => s.Initiative, s=>s.MaxHp))
             {
+                //Validation Logic
+                if (characterToUpdate.Hp > characterToUpdate.MaxHp)
+                    ModelState.AddModelError("Hp", "Current HP cannot be greater than Max HP");
                 try
                 {
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    if (ModelState.IsValid)
+                    {
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
