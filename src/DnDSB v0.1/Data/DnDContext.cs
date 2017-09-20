@@ -1,14 +1,14 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using DnDSB.Models;
 
-namespace DnDSB.Models
+namespace DnDSB.Data
 {
     public class DnDContext : DbContext
     {
         public DnDContext(DbContextOptions<DnDContext> options) : base(options)
         {
-
         }
 
 
