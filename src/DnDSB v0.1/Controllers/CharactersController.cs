@@ -128,7 +128,7 @@ namespace DnDSB.Controllers
             if (await TryUpdateModelAsync<Character>(
                 characterToUpdate,
                 "",
-                s => s.CharacterName, s => s.Hp, s => s.Str, s => s.Dex, s => s.Con, s => s.Int, s => s.Wis, s => s.Cha, s => s.Initiative, s=>s.MaxHp))
+                s => s.CharacterName, s => s.Hp, s => s.MaxHp,s => s.Str, s => s.Dex, s => s.Con, s => s.Int, s => s.Wis, s => s.Cha, s => s.Initiative, s=>s.MaxHp))
             {
                 //Validation Logic
                 if (characterToUpdate.Hp > characterToUpdate.MaxHp)
