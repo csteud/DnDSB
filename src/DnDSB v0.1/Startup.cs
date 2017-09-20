@@ -24,7 +24,7 @@ namespace DnDSB_v0._1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DnDContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DnDConnection")));
 
             services.AddMvc();
         }
