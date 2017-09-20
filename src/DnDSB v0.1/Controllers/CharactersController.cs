@@ -127,6 +127,7 @@ namespace DnDSB.Controllers
                 "",
                 s => s.CharacterName, s => s.Hp, s => s.Str, s => s.Dex, s => s.Con, s => s.Int, s => s.Wis, s => s.Cha, s => s.Initiative))
             {
+                //
                 try
                 {
                     await _context.SaveChangesAsync();
