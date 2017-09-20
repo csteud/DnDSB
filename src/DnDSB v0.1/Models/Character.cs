@@ -14,5 +14,6 @@ namespace DnDSB.Models
         public int? Int { get; set; }
         public int? Wis { get; set; }
         public int? Cha { get; set; }
+        public int? Initiative { get; set; }
     }
 }

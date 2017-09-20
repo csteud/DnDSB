@@ -19,6 +19,13 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="Initiative" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Initiative" class="form-control" />
+                <span asp-validation-for="Initiative" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="Hp" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Hp" class="form-control" />

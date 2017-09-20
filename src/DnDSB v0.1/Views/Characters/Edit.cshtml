@@ -11,12 +11,18 @@
         <h4>Character</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="CharacterId" />
         <div class="form-group">
             <label asp-for="CharacterName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="CharacterName" class="form-control" />
                 <span asp-validation-for="CharacterName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Initiative" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Initiative" class="form-control" />
+                <span asp-validation-for="Initiative" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">

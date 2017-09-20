@@ -19,9 +19,28 @@ namespace DnDSB.Controllers
         }
 
         // GET: Characters
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            return View(await _context.Character.ToListAsync());
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["InitiativeSortParm"] = sortOrder == "initiative_desc" ? "Initiative" : "initiative_desc";
+            var characters = from s in _context.Character
+                             select s;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    characters = characters.OrderByDescending(s => s.CharacterName);
+                    break;
+                case "Initiative":
+                    characters = characters.OrderBy(s => s.Initiative);
+                    break;
+                case "initiative_desc":
+                    characters = characters.OrderByDescending(s => s.Initiative);
+                    break;
+                default:
+                    characters = characters.OrderBy(s => s.CharacterName);
+                    break;
+            }
+            return View(await characters.AsNoTracking().ToListAsync());
         }
 
         // GET: Characters/Details/5
@@ -53,24 +72,24 @@ namespace DnDSB.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CharacterName,Hp,Str,Dex,Con,Int,Wis,Cha")] Character character)
+        public async Task<IActionResult> Create([Bind("CharacterName,Hp,Str,Dex,Con,Int,Wis,Cha,Initiative")] Character character)
         {
-            //try
-            //{
+            try
+            {
                 if (ModelState.IsValid)
                 {
                     _context.Add(character);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
-            //}
-            //catch (DbUpdateException /* ex */)
-            //{
-            //    //Log the error (uncomment ex variable name and wirte a log
-            //    ModelState.AddModelError("", "Unable to save Changes. " +
-            //                   "Try again, and if the problem perists " +
-            //                   "see your system administrator.");
-            //}
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and wirte a log
+                ModelState.AddModelError("", "Unable to save Changes. " +
+                               "Try again, and if the problem perists " +
+                               "see your system administrator.");
+            }
             return View(character);
         }
 
@@ -93,7 +112,7 @@ namespace DnDSB.Controllers
         // POST: Characters/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPost(int? id)
         {
@@ -102,7 +121,10 @@ namespace DnDSB.Controllers
                 return NotFound();
             }
             var characterToUpdate = await _context.Character.SingleOrDefaultAsync(s => s.CharacterId == id);
-            if (await TryUpdateModelAsync<Character>(characterToUpdate, "", s => s.CharacterName, s => s.Hp, s => s.Str, s => s.Dex, s => s.Con, s => s.Int, s => s.Wis, s => s.Cha))
+            if (await TryUpdateModelAsync<Character>(
+                characterToUpdate,
+                "",
+                s => s.CharacterName, s => s.Hp, s => s.Str, s => s.Dex, s => s.Con, s => s.Int, s => s.Wis, s => s.Cha, s => s.Initiative))
             {
                 try
                 {
