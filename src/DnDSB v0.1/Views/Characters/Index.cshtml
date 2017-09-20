@@ -55,22 +55,22 @@
                 @Html.DisplayFor(modelItem => item.Hp)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Str)
+                @Html.DisplayFor(modelItem => item.Str)  (@Html.DisplayFor(modelitem => item.StrMod))
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Dex)
+                @Html.DisplayFor(modelItem => item.Dex) (@Html.DisplayFor(modelitem => item.DexMod))
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Con)
+                @Html.DisplayFor(modelItem => item.Con) (@Html.DisplayFor(modelitem => item.ConMod))
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Int)
+                @Html.DisplayFor(modelItem => item.Int) (@Html.DisplayFor(modelitem => item.IntMod))
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Wis)
+                @Html.DisplayFor(modelItem => item.Wis) (@Html.DisplayFor(modelitem => item.WisMod))
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Cha)
+                @Html.DisplayFor(modelItem => item.Cha) (@Html.DisplayFor(modelitem => item.ChaMod))
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.CharacterId">Edit</a> |

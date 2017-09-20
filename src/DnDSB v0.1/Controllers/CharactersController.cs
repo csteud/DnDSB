@@ -28,13 +28,13 @@ namespace DnDSB.Controllers
             switch (sortOrder)
             {
                 case "name_desc":
-                    characters = characters.OrderByDescending(s => s.CharacterName);
+                    characters = characters.OrderByDescending(s => s.CharacterName);                    
                     break;
                 case "Initiative":
-                    characters = characters.OrderBy(s => s.Initiative);
+                    characters = characters.OrderBy(s => s.Initiative).ThenBy(s => s.Dex);
                     break;
                 case "initiative_desc":
-                    characters = characters.OrderByDescending(s => s.Initiative);
+                    characters = characters.OrderByDescending(s => s.Initiative).ThenByDescending(s => s.Dex);
                     break;
                 default:
                     characters = characters.OrderBy(s => s.CharacterName);
