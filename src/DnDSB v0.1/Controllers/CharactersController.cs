@@ -21,15 +21,18 @@ namespace DnDSB.Controllers
 
         // GET: Characters
         public async Task<IActionResult> Index(string sortOrder)
-        {
+        {           
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["InitiativeSortParm"] = sortOrder == "initiative_desc" ? "Initiative" : "initiative_desc";
-            var characters = from s in _context.Character
-                             select s;
+  
+            var characters = from s in _context.Characters
+                .Include(s => s.CharAbilities)
+               .ThenInclude(e => e.AbilityScore)
+                            select s;
             switch (sortOrder)
             {
                 case "name_desc":
-                    characters = characters.OrderByDescending(s => s.CharacterName);
+                    characters = characters.OrderByDescending(s => s.Name);
                     break;
                 case "Initiative":
                     characters = characters.OrderBy(s => s.Initiative);
@@ -38,7 +41,7 @@ namespace DnDSB.Controllers
                     characters = characters.OrderByDescending(s => s.Initiative);
                     break;
                 default:
-                    characters = characters.OrderBy(s => s.CharacterName);
+                    characters = characters.OrderBy(s => s.Name);
                     break;
             }
             return View(await characters.AsNoTracking().ToListAsync());
@@ -52,8 +55,10 @@ namespace DnDSB.Controllers
                 return NotFound();
             }
 
-            var character = await _context.Character
-                .SingleOrDefaultAsync(m => m.CharacterId == id);
+            var character = await _context.Characters
+                 .Include(s => s.CharAbilities)
+                .ThenInclude(e => e.AbilityScore)
+                .SingleOrDefaultAsync(m => m.ID == id);
             if (character == null)
             {
                 return NotFound();
@@ -71,9 +76,11 @@ namespace DnDSB.Controllers
         // POST: Characters/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        //[Bind("Name,CurrentHP,Str,Dex,Con,Int,Wis,Cha,Initiative")] 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CharacterName,Hp,Str,Dex,Con,Int,Wis,Cha,Initiative")] Character character)
+        public async Task<IActionResult> Create(Character character)
         {
             try
             {
@@ -102,7 +109,7 @@ namespace DnDSB.Controllers
                 return NotFound();
             }
 
-            var character = await _context.Character.SingleOrDefaultAsync(m => m.CharacterId == id);
+            var character = await _context.Characters.SingleOrDefaultAsync(m => m.ID == id);
             if (character == null)
             {
                 return NotFound();
@@ -121,11 +128,11 @@ namespace DnDSB.Controllers
             {
                 return NotFound();
             }
-            var characterToUpdate = await _context.Character.SingleOrDefaultAsync(s => s.CharacterId == id);
+            var characterToUpdate = await _context.Characters.SingleOrDefaultAsync(s => s.ID == id);
             if (await TryUpdateModelAsync<Character>(
                 characterToUpdate,
                 "",
-                s => s.CharacterName, s => s.Hp, s => s.Str, s => s.Dex, s => s.Con, s => s.Int, s => s.Wis, s => s.Cha, s => s.Initiative))
+                s => s.Name, s => s.CurrentHP, s => s.Str, s => s.Dex, s => s.Con, s => s.Int, s => s.Wis, s => s.Cha, s => s.Initiative))
             {
                 //
                 try
@@ -153,9 +160,9 @@ namespace DnDSB.Controllers
                 return NotFound();
             }
 
-            var character = await _context.Character
+            var character = await _context.Characters
                 .AsNoTracking()
-                .SingleOrDefaultAsync(m => m.CharacterId == id);
+                .SingleOrDefaultAsync(m => m.ID == id);
             if (character == null)
             {
                 return NotFound();
@@ -176,9 +183,9 @@ namespace DnDSB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var character = await _context.Character
+            var character = await _context.Characters
                 .AsNoTracking()
-                .SingleOrDefaultAsync(m => m.CharacterId == id);
+                .SingleOrDefaultAsync(m => m.ID == id);
             if (character == null)
             {
                 return RedirectToAction(nameof(Index));
@@ -186,7 +193,7 @@ namespace DnDSB.Controllers
 
             try
             {
-                _context.Character.Remove(character);
+                _context.Characters.Remove(character);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -200,7 +207,7 @@ namespace DnDSB.Controllers
 
         private bool CharacterExists(int id)
         {
-            return _context.Character.Any(e => e.CharacterId == id);
+            return _context.Characters.Any(e => e.ID == id);
         }
     }
 }
