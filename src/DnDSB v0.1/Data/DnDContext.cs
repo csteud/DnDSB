@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+
 using DnDSB.Models;
 
 namespace DnDSB.Data
@@ -13,11 +14,16 @@ namespace DnDSB.Data
         }
 
 
-        public DbSet<Character> Character { get; set; }
+        public DbSet<Character> Characters { get; set; }
+        public DbSet<CharAbility> CharAbilities { get; set; }
+        public DbSet<AbilityScore> AbilityScores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Character>().ToTable("Character");
+        {            
+
+           modelBuilder.Entity<Character>().ToTable("CharacterNew");
+           modelBuilder.Entity<CharAbility>().ToTable("CharAbility");
+            modelBuilder.Entity<AbilityScore>().ToTable("AbilityScore");
         }
 
 
