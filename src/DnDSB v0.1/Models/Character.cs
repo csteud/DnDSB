@@ -49,8 +49,25 @@ namespace DnDSB.Models
         public int? Wis { get { return 0; } set { } }
         public int? Cha { get { return 0; } set { } }
 
-     
 
-        
+        public string StrMod { get { return GetMod(Str); } }
+        public string DexMod { get { return GetMod(Dex); } }
+        public string ConMod { get { return GetMod(Con); } }
+        public string IntMod { get { return GetMod(Int); } }
+        public string WisMod { get { return GetMod(Wis); } }
+        public string ChaMod { get { return GetMod(Cha); } }
+
+
+        private string GetMod(int? i)
+        {
+            if (i == null)
+                return string.Empty;
+
+            int mod = (int)Math.Floor((double)(i - 10) / 2);
+            string modifier = Convert.ToString(mod);
+            if (mod > 0) return $"+{modifier}";
+            else return modifier;
+        }
+
     }
 }

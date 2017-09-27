@@ -23,13 +23,13 @@
             grid = $('#grid').grid({
                 dataSource: '/Characters/Get',
                 uiLibrary: 'bootstrap',
-                primaryKey: 'characterId',
+                primaryKey: 'id',
                 inlineEditing: { mode: 'dblclick' },
                 columns: [
-                    { field: 'characterName', title: 'Character Name', tooltip: "Name of Character"},
+                    { field: 'name', title: 'Character Name', tooltip: "Name of Character"},
                     { field: 'initiative', title: 'Initiative', editor: true, sortable: true},
-                    { field: 'hp', title: 'HP', editor: true},
-                    { field: 'maxHp', title: 'MaxHP' },
+                    { field: 'currentHP', title: 'HP', editor: true},
+                    { field: 'maxHP', title: 'MaxHP' },
                     { field: 'int', title: 'INT' , tmpl: "{int} ({intMod})"},
                     { field: 'cha', title: 'CHA', tmpl: "{cha} ({chaMod})" },
                     { field: 'con', title: 'CON', tmpl: "{con} ({conMod})" },

@@ -205,6 +205,143 @@ namespace DnDSB.Controllers
             
         }
 
+        // JGet: 
+        public JsonResult Get(int? page, int? limit, string sortBy, string direction, string name, int Hp, int MaxHp)
+        {
+            List<Character> records;
+            int total;
+            using (DnDContext context = _context)
+            {
+                var query = context.Characters.Select(p => new Character
+                {
+                    ID = p.ID,
+                    Name = p.Name,
+                    Initiative = p.Initiative,
+                    CurrentHP = p.CurrentHP,
+                    MaxHP = p.MaxHP,
+                    Int = p.Int,
+                    Cha = p.Cha,
+                    Con = p.Con,
+                    Dex = p.Dex,
+                    Str = p.Str,
+                    Wis = p.Wis
+                });
+
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    query = query.Where(q => q.Name.Contains(name));
+                }
+
+                if (!string.IsNullOrEmpty(sortBy) && !string.IsNullOrEmpty(direction))
+                {
+                    if (direction.Trim().ToLower() == "asc")
+                    {
+                        switch (sortBy.Trim().ToLower())
+                        {
+                            case "name":
+                                query = query.OrderBy(q => q.Name);
+                                break;
+                            case "Hp":
+                                query = query.OrderBy(q => q.CurrentHP);
+                                break;
+                            case "initiative":
+                                query = query.OrderByDescending(q => q.Initiative);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (sortBy.Trim().ToLower())
+                        {
+                            case "name":
+                                query = query.OrderByDescending(q => q.Name);
+                                break;
+                            case "Hp":
+                                query = query.OrderByDescending(q => q.CurrentHP);
+                                break;
+                            case "MaxHp":
+                                query = query.OrderByDescending(q => q.MaxHP);
+                                break;
+                            case "initiative":
+                                query = query.OrderBy(q => q.Initiative);
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    query = query.OrderBy(q => q.Name);
+                }
+
+                total = query.Count();
+                if (page.HasValue && limit.HasValue)
+                {
+                    int start = (page.Value - 1) * limit.Value;
+                    records = query.Skip(start).Take(limit.Value).ToList();
+                }
+                else
+                {
+                    records = query.ToList();
+                }
+            }
+
+            return Json(new { records, total });
+        }
+
+        // JPOSTSave
+        [HttpPost]
+        public JsonResult Save(Character record)
+        {
+            Character entity;
+            using (_context)
+            {
+                if (record.ID > 0)
+                {
+                    entity = _context.Characters.First(p => p.ID == record.ID);
+                    entity.Name = record.Name;
+                    entity.CurrentHP = record.CurrentHP;
+                    entity.MaxHP = record.MaxHP;
+                    entity.Initiative = record.Initiative;
+                    entity.Int = record.Int;
+                    entity.Cha = record.Cha;
+                    entity.Con = record.Con;
+                    entity.Dex = record.Dex;
+                    entity.Str = record.Str;
+                    entity.Wis = record.Wis;
+                }
+                //else
+                //{
+                //    _context.Character.Add(new Character
+                //    {
+                //        CharacterName = record.CharacterName,
+                //        Hp = record.Hp,
+                //        MaxHp = record.MaxHp,
+                //        Initiative = record.Initiative,
+                //        Int = record.Int,
+                //        Cha = record.Cha,
+                //        Con = record.Con,
+                //        Dex = record.Dex,
+                //        Str = record.Str,
+                //        Wis = record.Wis
+                //    });
+                //}
+                _context.SaveChanges();
+            }
+            return Json(new { result = true });
+        }
+
+        [HttpPost]
+        public JsonResult Delete(int id)
+        {
+            using (_context)
+            {
+                Character entity = _context.Characters.First(p => p.ID == id);
+                _context.Characters.Remove(entity);
+                _context.SaveChanges();
+            }
+            return Json(new { result = true });
+        }
+
         private bool CharacterExists(int id)
         {
             return _context.Characters.Any(e => e.ID == id);
