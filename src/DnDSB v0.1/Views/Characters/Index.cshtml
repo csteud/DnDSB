@@ -1,78 +1,59 @@
 @model IEnumerable<DnDSB.Models.Character>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Character";
 }
 
-<h2>Index</h2>
+@Html{
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.Name)</a>
-                </th>
-                <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["InitiativeSortParm"]">@Html.DisplayNameFor(model => model.Initiative)</a>
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CurrentHP)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Str)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Dex)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Con)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Int)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Wis)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Cha)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
+<div class="container-full">
+    <div class="row">
+        <div class="col-xs-12">
+            <table id="grid"></table>
+        </div>
+    </div>
+</div>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Initiative)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CurrentHP)
-            </td>
-            @foreach (var ability in item.CharAbilities)
-            {
-                <td>
-                    @Html.DisplayFor(modelItem => ability.Total)
-                </td>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var grid, countries;
+        countries = ["Bulgaria", "Brazil", "England", "Germany", "Colombia", "Poland"],
+            grid = $('#grid').grid({
+                dataSource: '/Players/Get',
+                uiLibrary: 'bootstrap',
+                primaryKey: 'CharacterID',
+                inlineEditing: { mode: 'command' },
+                columns: [
+                    { field: 'CharacterName', editor: true },
+                    { field: 'Nationality', type: 'dropdown', editor: { dataSource: countries } },
+                    { field: 'DateOfBirth', type: 'date', editor: true },
+                    { field: 'IsActive', title: 'Active?', type: 'checkbox', editor: true, width: 65, align: 'center' }
+                ],
+                pager: { limit: 5 }
+            });
+        grid.on('rowDataChanged', function (e, id, record) {
+            // Format the date to format that is supported by the backend.
+            record.DateOfBirth = gj.core.parseDate(record.DateOfBirth, 'mm/dd/yyyy').toISOString();
+            // Post the data to the server
+            $.ajax({ url: '/Players/Save', data: { record: record }, method: 'POST' })
+                .fail(function () {
+                    alert('Failed to save.');
+                });
+        });
+        grid.on('rowRemoving', function (e, $row, id, record) {
+            if (confirm('Are you sure?')) {
+                $.ajax({ url: '/Players/Delete', data: { id: id }, method: 'POST' })
+                    .done(function () {
+                        grid.reload();
+                    })
+                    .fail(function () {
+                        alert('Failed to delete.');
+                    });
             }
-           
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-           <td>
+        });
+    });
 
-           </td>
-        </tr>
 
-       
-}
-    </tbody>
-</table>
+</script>
+    }
