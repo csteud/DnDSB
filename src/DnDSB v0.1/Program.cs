@@ -16,25 +16,25 @@ namespace DnDSB_v0._1
     {
         public static void Main(string[] args)
         {
-            var host = BuildWebHost(args);
+            /*var host = */ BuildWebHost(args).Run();
 
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    var context = services.GetRequiredService<DnDContext>();
-                    DbInitializer.Initialize(context);
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error ocurred while seeding the database.");
-                }
+            //using (var scope = host.Services.CreateScope())
+            //{
+            //    var services = scope.ServiceProvider;
+            //    try
+            //    {
+            //        var context = services.GetRequiredService<DnDContext>();
+            //        DbInitializer.Initialize(context);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        var logger = services.GetRequiredService<ILogger<Program>>();
+            //        logger.LogError(ex, "An error ocurred while seeding the database.");
+            //    }
 
-            }
+            //}
 
-            host.Run();
+            //host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

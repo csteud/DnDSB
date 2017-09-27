@@ -55,7 +55,7 @@ namespace DnDSB_v0._1
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Characters}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

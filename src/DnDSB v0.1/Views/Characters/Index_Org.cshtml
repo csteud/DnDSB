@@ -1,0 +1,89 @@
+@model IEnumerable<DnDSB.Models.Character>
+
+@{
+    ViewData["Title"] = "Character";
+}
+
+<h2>Characters</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.CharacterName)</a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["InitiativeSortParm"]">@Html.DisplayNameFor(model => model.Initiative)</a>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Hp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MaxHp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Str)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dex)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Con)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Int)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Wis)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cha)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CharacterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Initiative)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hp)
+            </td>
+            <td>
+                @Html.DisplayFor(ModelItem => item.MaxHp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Str)  (@Html.DisplayFor(modelitem => item.StrMod))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dex) (@Html.DisplayFor(modelitem => item.DexMod))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Con) (@Html.DisplayFor(modelitem => item.ConMod))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Int) (@Html.DisplayFor(modelitem => item.IntMod))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Wis) (@Html.DisplayFor(modelitem => item.WisMod))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cha) (@Html.DisplayFor(modelitem => item.ChaMod))
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CharacterId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CharacterId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CharacterId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

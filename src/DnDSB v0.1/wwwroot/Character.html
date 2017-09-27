@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>DnDSB - Characters</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="http://code.gijgo.com/1.5.1/js/gijgo.js" type="text/javascript"></script>
+    <link href="http://code.gijgo.com/1.5.1/css/gijgo.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="container-full">
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="grid"></table>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var grid, countries;
+            countries = ["Bulgaria", "Brazil", "England", "Germany", "Colombia", "Poland"],
+            grid = $('#grid').grid({
+                dataSource: '/Characters/Get',
+                uiLibrary: 'bootstrap',
+                primaryKey: 'id',
+                inlineEditing: { mode: 'dblclick' },
+                columns: [
+                    { field: 'name', title: 'Character Name', tooltip: "Name of Character"},
+                    { field: 'initiative', title: 'Initiative', editor: true, sortable: true},
+                    { field: 'currentHP', title: 'HP', editor: true},
+                    { field: 'maxHP', title: 'MaxHP' },
+                    { field: 'int', title: 'INT' , tmpl: "{int} ({intMod})"},
+                    { field: 'cha', title: 'CHA', tmpl: "{cha} ({chaMod})" },
+                    { field: 'con', title: 'CON', tmpl: "{con} ({conMod})" },
+                    { field: 'dex', title: 'DEX', tmpl: "{dex} ({dexMod})" },
+                    { field: 'str', title: 'STR', tmpl: "{str} ({strMod})" },
+                    { field: 'wis', title: 'WIS', tmpl: "{wis} ({wisMod})"},
+                ],
+                pager: false
+            });
+            grid.on('cellDataChanged', function (e, id, record, newValue) {
+                
+                // Post the data to the server
+                $.ajax({ url: '/Characters/Save', data: { record: newValue }, method: 'POST' })
+                    .fail(function () {
+                        alert('Failed to save.');
+                    });
+            });
+            grid.on('rowRemoving', function (e, $row, id, record) {
+                if (confirm('Are you sure?')) {
+                    $.ajax({ url: '/Characters/Delete', data: { id: id }, method: 'POST' })
+                        .done(function () {
+                            grid.reload();
+                        })
+                        .fail(function () {
+                            alert('Failed to delete.');
+                        });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

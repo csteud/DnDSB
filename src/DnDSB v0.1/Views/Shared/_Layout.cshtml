@@ -9,12 +9,20 @@
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <meta charset="utf-8" />
+        @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">*@
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="~/node_modules/gijgo/combined/js/gijgo.js" type="text/javascript"></script>
+        <link href="~/node_modules/gijgo/combined/css/gijgo.css" rel="stylesheet" type="text/css" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="http://code.gijgo.com/1.5.1/js/gijgo.js" type="text/javascript"></script>
+        <link href="http://code.gijgo.com/1.5.1/css/gijgo.css" rel="stylesheet" type="text/css" />
     </environment>
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
@@ -28,14 +36,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Characters" asp-action="Index" class="navbar-brand">DnDSB</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">DnDSB</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Characters" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     @*<li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li><a asp-area="" asp-controller="Characters" asp-action="Index">Characters</a></li>*@
+    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>*@
+                    <li><a asp-area="" asp-controller="Characters" asp-action="Create">Add-Character</a></li>
+                    <li><a href="~/Character.html" target="_blank">Characters</a></li>
                 </ul>
             </div>
         </div>
