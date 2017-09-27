@@ -7,6 +7,6 @@ namespace DnDSB.Models
     {
         public int CharacterId { get; set; }
         public string CharacterName { get; set; }
-        public string PlayerId { get; set; }
+        //public string PlayerId { get; set; }
     }
 }

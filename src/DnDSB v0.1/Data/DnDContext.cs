@@ -9,6 +9,7 @@ namespace DnDSB.Data
     {
         public DnDContext(DbContextOptions<DnDContext> options) : base(options)
         {
+
         }
 
 
@@ -18,6 +19,7 @@ namespace DnDSB.Data
         {
             modelBuilder.Entity<Character>().ToTable("Character");
         }
+
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{

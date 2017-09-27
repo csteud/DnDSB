@@ -44,6 +44,7 @@ namespace DnDSB.Controllers
             return View(await characters.AsNoTracking().ToListAsync());
         }
 
+
         // GET: Characters/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -204,6 +205,143 @@ namespace DnDSB.Controllers
                 return RedirectToAction(nameof(Delete), new { id = id, saveChangesError = true });
             }
             
+        }
+
+        // JGet: 
+        public JsonResult Get(int? page, int? limit, string sortBy, string direction, string name, int Hp, int MaxHp)
+        {
+            List<Character> records;
+            int total;
+            using (DnDContext context = _context)
+            {
+                var query = context.Character.Select(p => new Character
+                {
+                    CharacterId = p.CharacterId,
+                    CharacterName = p.CharacterName,
+                    Initiative = p.Initiative,
+                    Hp = p.Hp,
+                    MaxHp = p.MaxHp,
+                    Int = p.Int,
+                    Cha = p.Cha,
+                    Con = p.Con,
+                    Dex = p.Dex,
+                    Str = p.Str,
+                    Wis = p.Wis
+                });
+
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    query = query.Where(q => q.CharacterName.Contains(name));
+                }
+
+                if (!string.IsNullOrEmpty(sortBy) && !string.IsNullOrEmpty(direction))
+                {
+                    if (direction.Trim().ToLower() == "asc")
+                    {
+                        switch (sortBy.Trim().ToLower())
+                        {
+                            case "name":
+                                query = query.OrderBy(q => q.CharacterName);
+                                break;
+                            case "Hp":
+                                query = query.OrderBy(q => q.Hp);
+                                break;
+                            case "initiative":
+                                query = query.OrderByDescending(q => q.Initiative);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (sortBy.Trim().ToLower())
+                        {
+                            case "name":
+                                query = query.OrderByDescending(q => q.CharacterName);
+                                break;
+                            case "Hp":
+                                query = query.OrderByDescending(q => q.Hp);
+                                break;
+                            case "MaxHp":
+                                query = query.OrderByDescending(q => q.MaxHp);
+                                break;
+                            case "initiative":
+                                query = query.OrderBy(q => q.Initiative);
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    query = query.OrderBy(q => q.CharacterName);
+                }
+
+                total = query.Count();
+                if (page.HasValue && limit.HasValue)
+                {
+                    int start = (page.Value - 1) * limit.Value;
+                    records = query.Skip(start).Take(limit.Value).ToList();
+                }
+                else
+                {
+                    records = query.ToList();
+                }
+            }
+
+            return Json(new { records, total });
+        }
+
+        // JPOSTSave
+        [HttpPost]
+        public JsonResult Save(Character record)
+        {
+            Character entity;
+            using (_context)
+            {
+                if (record.CharacterId > 0)
+                {
+                    entity = _context.Character.First(p => p.CharacterId == record.CharacterId);
+                    entity.CharacterName = record.CharacterName;
+                    entity.Hp = record.Hp;
+                    entity.MaxHp = record.MaxHp;
+                    entity.Initiative = record.Initiative;
+                    entity.Int = record.Int;
+                    entity.Cha = record.Cha;
+                    entity.Con = record.Con;
+                    entity.Dex = record.Dex;
+                    entity.Str = record.Str;
+                    entity.Wis = record.Wis;
+                }
+                //else
+                //{
+                //    _context.Character.Add(new Character
+                //    {
+                //        CharacterName = record.CharacterName,
+                //        Hp = record.Hp,
+                //        MaxHp = record.MaxHp,
+                //        Initiative = record.Initiative,
+                //        Int = record.Int,
+                //        Cha = record.Cha,
+                //        Con = record.Con,
+                //        Dex = record.Dex,
+                //        Str = record.Str,
+                //        Wis = record.Wis
+                //    });
+                //}
+                _context.SaveChanges();
+            }
+            return Json(new { result = true });
+        }
+
+        [HttpPost]
+        public JsonResult Delete(int id)
+        {
+            using (_context)
+            {
+                Character entity = _context.Character.First(p => p.CharacterId == id);
+                _context.Character.Remove(entity);
+                _context.SaveChanges();
+            }
+            return Json(new { result = true });
         }
 
         private bool CharacterExists(int id)

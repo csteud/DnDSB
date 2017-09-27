@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DnDSB
 {
-    public class Player
+    public class Playercs
     {
         public int PlayerId { get; set; }
         public string PlayerName { get; set; }        
