@@ -58,6 +58,10 @@ namespace DnDSB.Controllers
             var character = await _context.Characters
                  .Include(s => s.CharAbilities)
                 .ThenInclude(e => e.AbilityScore)
+                .Include(r => r.Race)
+                .Include(c => c.CharClass)
+                .ThenInclude(d => d.Class)
+                .Include(a => a.Alignment)
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (character == null)
             {

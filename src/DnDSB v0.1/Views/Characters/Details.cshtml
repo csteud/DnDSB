@@ -33,10 +33,20 @@
             <th>Gender</th>
         </tr>
         <tr>
-            <td>Cleric 3 (Need Relation)</td>
-            <td>3 (Need Calculation)</td>
-            <td>Race (Need Relation)</td>
-            <td>Size (Need Relation to race)</td>
+            <td>@for (int i = 0; i < Model.CharClass.Count; i++)
+                    {
+
+                        @Html.DisplayFor(modelItem => Model.CharClass[i].Class.Name) <text>  </text> @Html.DisplayFor(modelItem => item.Levels) <text> | </text>  
+
+                    }
+            
+            
+            </td>
+
+
+            <td>@Html.DisplayFor(model => model.ecl)</td>
+            <td>@Html.DisplayFor(model => model.Race.Name)</td>
+            <td>@Html.DisplayFor(model => model.Race.Size)</td>
             <td>@Html.DisplayFor(model => model.Gender)</td>
         </tr>
     </table>

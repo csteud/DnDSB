@@ -13,7 +13,7 @@ namespace DnDSB.Models
         public int? Age { get; set; }
         public int? RaceID { get; set; }
         public string Gender { get; set; }
-        public int? Alignment { get; set; }
+        public int? AlignmentID { get; set; }
         public string Religion { get; set; }
         public int? Height01 { get; set; }
         public int? Height02 { get; set; }
@@ -41,6 +41,10 @@ namespace DnDSB.Models
         public int? Initiative { get; set; }
 
         public virtual ICollection<CharAbility> CharAbilities { get; set; }
+        public virtual Race Race { get; set; }
+        public virtual Alignment Alignment { get; set; }
+        public ICollection<CharClass> CharClass { get; set; }
+        public int? ecl { get { return GetECL(); } }
 
         public int? Str { get; set; }
         public int? Dex { get { return 0; } set { } }
@@ -49,8 +53,18 @@ namespace DnDSB.Models
         public int? Wis { get { return 0; } set { } }
         public int? Cha { get { return 0; } set { } }
 
-     
+        private int? GetECL()
+        {
+            int? total = 0;
 
-        
+            foreach(var c in CharClass)
+            {
+                total += c.Levels;
+            }
+
+            return total;
+        }
+
+
     }
 }
