@@ -10,19 +10,19 @@
     <h4>Character</h4>
     <hr />
     <table class="table">
-       
+
         <tr>
-          
+
 
             <th>Name</th>
             <th>Age</th>
-            <th>PlayerName</th>           
+            <th>PlayerName</th>
         </tr>
-            <tr>
-                <td>@Html.DisplayFor(model => model.Name)</td>
-                <td>@Html.DisplayFor(model => model.Age)</td>
-                <td>JJ (Need Relation)</td>             
-            </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.Name)</td>
+            <td>@Html.DisplayFor(model => model.Age)</td>
+            <td>JJ (Need Relation)</td>
+        </tr>
     </table>
     <table class="table">
         <tr>
@@ -33,105 +33,338 @@
             <th>Gender</th>
         </tr>
         <tr>
-            <td>@for (int i = 0; i < Model.CharClass.Count; i++)
-                    {
+            <td>
+                @foreach (var item in Model.CharClass)
+            {
 
-                        @Html.DisplayFor(modelItem => Model.CharClass[i].Class.Name) <text>  </text> @Html.DisplayFor(modelItem => item.Levels) <text> | </text>  
+                @Html.DisplayFor(modelItem => item.Class.Name) <text>  </text> @Html.DisplayFor(modelItem => item.Levels) <text> | </text>
 
-                    }
-            
-            
-            </td>
+            }
+
+        </td>
+        <td>@Html.DisplayFor(model => model.ECL)</td>
+        <td>@Html.DisplayFor(model => model.Race.Name)</td>
+        <td>@Html.DisplayFor(model => model.Race.Size)</td>
+        <td>@Html.DisplayFor(model => model.Gender)</td>
+    </tr>
+</table>
+<table class="table">
+    <tr>
+        <th width="200">Alignment</th>
+        <th width="200">Religion</th>
+        <th>Height</th>
+        <th>Weight</th>
+        <th>Hair</th>
+        <th>Eyes</th>
+        <th>Distinguishing Features</th>
+    </tr>
+    <tr>
+        <td>@Html.DisplayFor(model => model.Alignment.Name)</td>
+        <td>@Html.DisplayFor(model => model.Religion)</td>
+        <td>@Html.DisplayFor(model => model.Height01)' @Html.DisplayFor(model => model.Height02)" </td>
+        <td>@Html.DisplayFor(model => model.Weight) lbs</td>
+        <td>@Html.DisplayFor(model => model.Hair) </td>
+        <td>@Html.DisplayFor(model => model.Eyes) </td>
+        <td>@Html.DisplayFor(model => model.Misc) </td>
+    </tr>
+</table>
+<div style="height:25px"></div>
+<table class="table">
+    <tr>
+        <th>Max HP: @Html.DisplayFor(model => model.MaxHP)</th>
+        <th>Current HP: @Html.DisplayFor(model => model.CurrentHP)</th>
+        <th>Speed: @Html.DisplayFor(model => model.Speed)</th>
+        <th>Initiative Mod: @Html.DisplayFor(model => model.InitiativeModDisplay)</th>
+        <th>AC: @Html.DisplayFor(model => model.AC)</th>
+
+    </tr>
+
+</table>
 
 
-            <td>@Html.DisplayFor(model => model.ecl)</td>
-            <td>@Html.DisplayFor(model => model.Race.Name)</td>
-            <td>@Html.DisplayFor(model => model.Race.Size)</td>
-            <td>@Html.DisplayFor(model => model.Gender)</td>
+<div style="float:left;margin:4px;">
+    <div style="background-color:black;text-align:center;">
+        <h2 style="color:white">ABILITY SCORES</h2>
+    </div>
+    <table class="table" style="text-align:center;width:50px">
+        <tr>
+            <td>Ability</td>
+            <td></td>
+            <td>MOD</td>
+            <td></td>
+            <td>Total</td>
+            <td></td>
+            <td>Base</td>
+            <td></td>
+            <td>Enhance</td>
+            <td></td>
+            <td>Bonus</td>
+            <td></td>
+            <td>Penalty</td>
+
+        </tr>
+
+
+        @foreach (var item in Model.CharAbilities)
+            {
+            <tr>
+                <th>@Html.DisplayFor(model => item.AbilityScore.ShortName)</th>
+                <td></td>
+                <td style="border:2px solid">@Html.DisplayFor(model => item.ModDisplay) </td>
+                <td></td>
+                <td>@Html.DisplayFor(model => item.Total)</td>
+                <th>=</th>
+                <td>@Html.DisplayFor(model => item.Value) </td>
+                <th>+</th>
+                <td>@Html.DisplayFor(model => item.MiscBonus)</td>
+                <th>+</th>
+                <td>@Html.DisplayFor(model => item.MiscBonus2)</td>
+                <th>-</th>
+                <td>@Html.DisplayFor(model => item.MiscPenalties) </td>
+
+
+            </tr>
+        }
+    </table>
+</div>
+<div style="float:right;margin:4px;">
+    <div style="background-color:black;text-align:center;">
+        <h2 style="color:white">COMBAT OPTIONS</h2>
+    </div>
+    <table class="table" style="text-align:center">
+        <tr>
+            <td style="text-align:right">BASE ATTACK BONUS</td>
+            <td style="border-bottom:1px solid">+@Html.DisplayFor(model => Model.BAB)</td>
         </tr>
     </table>
-    <dl class="dl-vertical">       
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Initiative)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Initiative)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CurrentHP)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CurrentHP)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Str)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Str)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Dex)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Dex)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Con)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Con)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Int)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Int)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Wis)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Wis)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Cha)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Cha)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CharAbilities)
-        </dt>
-        <dd>
-            <table class="table">
+    <div>
+        <table class="table" style="text-align:center;align-content:center">
+            <tr>
+                <th style="text-align:center">Weapon</th>
+                <th style="text-align:center">ATK</th>
+                <th style="text-align:center">DMG</th>
+                <th style="text-align:center">CRIT</th>
+                <th style="text-align:center">RNG</th>
+                <th style="text-align:center">TYP</th>
+                <th style="text-align:center">AMMO</th>
+                <th style="text-align:center">Notes</th>
+            </tr>
+            @foreach (var wep in Model.CharWeapons)
+            {
                 <tr>
-                    <th>Ability</th>
-                    <th>Score</th>
-                    <th>Modifier</th>
+
+                    <td style="width:150px">@Html.DisplayFor(modelweapon => wep.Name)</td>
+                    <td>@Html.DisplayFor(modelweapon => wep.ATK)</td>
+                    <td>@Html.DisplayFor(modelweapon => wep.DMG)</td>
+                    <td>@Html.DisplayFor(modelweapon => wep.CRIT)</td>
+                    <td>@Html.DisplayFor(modelweapon => wep.RNG)</td>
+                    <td>@Html.DisplayFor(modelweapon => wep.TYP)</td>
+                    <td>@Html.DisplayFor(modelweapon => wep.AMMO)</td>
+                    <td style="width:100px">@Html.DisplayFor(modelweapon => wep.Notes)</td>
                 </tr>
-                @foreach (var item in Model.CharAbilities)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.AbilityScore.ShortName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Total)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Mod)
-                        </td>
-                    </tr>
-                }
-            </table>
-        </dd>
-    </dl>
+
+            }
+
+
+
+
+        </table>
+    </div>
+
+</div>
+<div style="clear:left;"></div>
+
+<div style="float:left;margin:4px;">
+    <div style="background-color:black;text-align:center;">
+        <h2 style="color:white">SAVING THROWS</h2>
+    </div>
+    <table class="table" style="text-align:center;width:auto;">
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Total</td>
+            <td></td>
+            <td>Base</td>
+            <td></td>
+            <td>Ability</td>
+            <td></td>
+            <td>Magic</td>
+            <td></td>
+            <td>Misc</td>
+            <td></td>
+            <td>Temp</td>
+
+        </tr>
+
+
+        @foreach (var item in Model.CharSaves)
+            {
+            <tr>
+                <th style="width:100px;text-align:center"><b>@Html.DisplayFor(model => item.Name)</b> <small>(@Html.DisplayFor(model => item.AbilityScore.Name))</small> </th>
+                <td></td>
+                <td style="border:2px solid;vertical-align:middle">@Html.DisplayFor(model => item.Total) </td>
+                <th style="vertical-align:middle">=</th>
+                <td style="vertical-align:middle">@Html.DisplayFor(model => item.Base)</td>
+                <th style="vertical-align:middle">+</th>
+                <td style="vertical-align:middle">@Html.DisplayFor(model => item.AbilityMod) </td>
+                <th style="vertical-align:middle">+</th>
+                <td style="vertical-align:middle">@Html.DisplayFor(model => item.MagicMod)</td>
+                <th style="vertical-align:middle">+</th>
+                <td style="vertical-align:middle">@Html.DisplayFor(model => item.MiscMod)</td>
+                <th style="vertical-align:middle">+</th>
+                <td style="vertical-align:middle">@Html.DisplayFor(model => item.TemporaryMod) </td>
+
+
+            </tr>
+        }
+    </table>
+</div>
+<div style="float:left;margin:4px;align-content:center;border:2px solid;padding:4px">
+    <table class="table" style="margin:auto;width:80%;text-align:center;border:1px solid">
+        <tr>
+            <th style="text-align:right;border:2px solid">Grapple Mod</th>
+            <th></th>
+            <th>BAB</th>
+            <th></th>
+            <th>STR</th>
+            <th></th>
+            <th>Size</th>
+            <th></th>
+            <th>Misc</th>
+        </tr>
+        <tr>
+            <th style="text-align:right;border:2px solid">@Html.DisplayFor(model => model.GrappleMod)</th>
+            <th>=</th>
+            <td>@Html.DisplayFor(model => model.BAB)</td>
+            <th>+</th>
+            <td>@Html.DisplayFor(model => model.Str)</td>
+            <th>+</th>
+            <td>@Html.DisplayFor(model => model.SizeMod)</td>
+            <th>+</th>
+            <td>@Html.DisplayFor(model => model.MiscGrappleMod) </td>
+        </tr>
+    </table>
+
+    <table class="table" style="width:auto;text-align:center;border:1px solid;margin:5px">
+        <tr>
+            <th style="width:20px;text-align:right;vertical-align:middle;border:2px solid">AC</th>
+            <th></th>
+            <th style="vertical-align:middle">ARM</th>
+            <th></th>
+            <th style="vertical-align:middle">SHLD</th>
+            <th></th>
+            <th style="vertical-align:middle">DEX</th>
+            <th></th>
+            <th style="vertical-align:middle">SZ</th>
+            <th></th>
+            <th style="vertical-align:middle">Nat</th>
+            <th></th>
+            <th style="vertical-align:middle">Defl</th>
+            <th></th>
+            <th style="vertical-align:middle">Misc</th>
+        </tr>
+        <tr>
+            <th style="text-align:right;border:2px solid">@Html.DisplayFor(model => model.AC)</th>
+            <th>= 10 +</th>
+            <td>@Html.DisplayFor(model => model.ArmorAC)</td>
+            <th style="width:5px">+</th>
+            <td>@Html.DisplayFor(model => model.ShieldAC)</td>
+            <th style="width:5px">+</th>
+            <td>@Html.DisplayFor(model => model.Dex)</td>
+            <th>+</th>
+            <td>@Html.DisplayFor(model => model.SizeMod) </td>
+            <th>+</th>
+            <td>@Html.DisplayFor(model => model.ArmorNatural) </td>
+            <th>+</th>
+            <td>@Html.DisplayFor(model => model.ArmorDeflection) </td>
+            <th>+</th>
+            <td>@Html.DisplayFor(model => model.ArmorMisc) </td>
+
+        </tr>
+    </table>
+
+    <table class="table" style="text-align:center;border:1px solid;margin:auto;width:auto;margin-top:10px">
+        <tr>
+            <th style="text-align:center">Armor Worn</th>
+            <th style="text-align:center">Max Dex</th>
+            <th style="text-align:center">Armor Check</th>
+            <th style="text-align:center">Weight</th>
+
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.ArmorName)</td>
+            <td>@Html.DisplayFor(model => model.ArmorMaxDex)</td>
+            <td>@Html.DisplayFor(model => model.ArmorCheckPenalty)</td>
+            <td>@Html.DisplayFor(model => model.Weight) lbs </td>
+        </tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr>
+            <th style="text-align:center">Shield Carried</th>
+            <th style="text-align:center">Max Dex</th>
+            <th style="text-align:center">Armor Check</th>
+            <th style="text-align:center">Weight</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.ShieldName) </td>
+            <td>@Html.DisplayFor(model => model.ShieldMaxDex) </td>
+            <td>@Html.DisplayFor(model => model.ShieldArmorCheckPenalty) </td>
+            <td>@Html.DisplayFor(model => model.ShieldWeight) </td>
+
+        </tr>
+    </table>
+    
+
+</div>
+    <div style="clear:left"></div>
+
+
+    <div style="float:left;margin:4px;">
+        <div style="background-color:black;text-align:center;">
+            <h2 style="color:white">Skills</h2>
+        </div>
+        <table class="table" style="text-align:center;width:auto;">
+            <tr>
+                <td>Skill Name</td>
+                <td>Key Ability</td>
+                <td>Total</td>
+                <td></td>
+                <td>Ranks</td>
+                <td></td>
+                <td>Ability</td>
+                <td></td>
+                <td>Misc</td>                
+
+            </tr>
+
+
+            @foreach (var item in Model.CharSkills)
+            {
+                <tr>
+                    @if (item.Subskill == null)
+                    {
+                        <th style="width:100px;text-align:center">@Html.DisplayFor(model => item.Skill.Name)</th>
+
+                    }
+                    else
+                    {
+                        <th style="width:100px;text-align:center">@Html.DisplayFor(model => item.Skill.Name) (@Html.DisplayFor(model => item.GetSubSkill))</th>
+
+                    }
+
+                    <td style="vertical-align:middle">@Html.DisplayFor(model => item.Skill.AbilityScore.ShortName)</td>
+                    <td style="border:2px solid;vertical-align:middle">@Html.DisplayFor(model => item.Total) </td>
+                    <th style="vertical-align:middle">=</th>
+                    <td style="vertical-align:middle">@Html.DisplayFor(model => item.Ranks)</td>
+                    <th style="vertical-align:middle">+</th>
+                    <td style="vertical-align:middle">@Html.DisplayFor(model => item.AbilityMod) </td>
+                    <th style="vertical-align:middle">+</th>
+                    <td style="vertical-align:middle">@Html.DisplayFor(model => item.MiscModifier)</td>
+
+                </tr>
+            }
+        </table>
+    </div>
+    <div style="clear:left"></div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |

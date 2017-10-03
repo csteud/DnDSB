@@ -62,6 +62,11 @@ namespace DnDSB.Controllers
                 .Include(c => c.CharClass)
                 .ThenInclude(d => d.Class)
                 .Include(a => a.Alignment)
+                .Include(w => w.CharWeapons)
+                .Include(v => v.CharSaves)
+                .Include(k => k.CharSkills)
+                .ThenInclude(j => j.Skill)
+                
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (character == null)
             {

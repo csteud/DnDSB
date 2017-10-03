@@ -17,6 +17,10 @@ namespace DnDSB.Data
         public DbSet<CharAbility> CharAbilities { get; set; }
         public DbSet<AbilityScore> AbilityScores { get; set; }
         public DbSet<Race> Races { get; set; }
+        public DbSet<CharWeapon> CharWeapons { get; set; }
+        public DbSet<CharSave> CharSave { get; set; }
+        public DbSet<Skill> Skills { get; set; }
+        public DbSet<CharSkill> CharSkills { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {            
@@ -25,6 +29,10 @@ namespace DnDSB.Data
            modelBuilder.Entity<CharAbility>().ToTable("CharAbility");
             modelBuilder.Entity<AbilityScore>().ToTable("AbilityScore");
             modelBuilder.Entity<Race>().ToTable("Race");
+            modelBuilder.Entity<CharWeapon>().ToTable("CharWeapon");
+            modelBuilder.Entity<CharSave>().ToTable("CharSave");
+            modelBuilder.Entity<Skill>().ToTable("Skill");
+            modelBuilder.Entity<CharSkill>().ToTable("CharSkill");
         }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)

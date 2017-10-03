@@ -18,8 +18,8 @@ namespace DnDSB.Data
 
             var characters = new Character[]
             {
-            new Character{ID=0,Name="Abhire",CurrentHP=17,Str=17,Dex=20,Con=20,Int=20,Wis=20,Cha=20,Initiative=20},
-            new Character{ID=0,Name="Test",CurrentHP=17,Str=17,Dex=10,Con=10,Int=10,Wis=10,Cha=10,Initiative=20}
+            new Character{ID=0,Name="Abhire",CurrentHP=17,Con=20,Int=20,Wis=20,Cha=20,Initiative=20},
+            new Character{ID=0,Name="Test",CurrentHP=17,Con=10,Int=10,Wis=10,Cha=10,Initiative=20}
             };
             foreach (Character s in characters)
             {
